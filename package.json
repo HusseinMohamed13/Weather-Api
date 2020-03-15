@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "API to get info of specific city ",
+  "main": "Api.js",
+  "dependencies": {
+    "axios": "^0.19.2"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HusseinMohamed13/Testing_Assignment1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HusseinMohamed13/Testing_Assignment1/issues"
+  },
+  "homepage": "https://github.com/HusseinMohamed13/Testing_Assignment1#readme"
+}

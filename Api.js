@@ -22,4 +22,4 @@ const getcountryname = ()=>{
      
 };
 
-getcountryname();
+exports.getcountryname = getcountryname;
