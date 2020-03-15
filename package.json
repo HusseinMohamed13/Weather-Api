@@ -1,7 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "API to get info of specific city ",
+  "description": "API to get info of specific city ,coverage part of this info with both unit and integration testing",
   "main": "Api.js",
   "dependencies": {
     "axios": "^0.19.2"

@@ -42,8 +42,9 @@ function getcityweatherdescription() {
     res = 'Weather description is ' + desc + ' in London now';
     console.log(res);
     return desc;
-  
+
 };
+
 
 function getcityweatherid() {
 
@@ -53,5 +54,113 @@ function getcityweatherid() {
     return id;
 };
 
+
+function getcitytemperature() {
+
+    const temp = data.main.temp;
+    const res = 'Temperature = ' + temp + ' K in London now';
+    console.log(res);
+    return temp;
+};
+
+
+function getcityhumidity() {
+
+    const humidity = data.main.humidity;
+    const res = 'Humidity = ' + humidity + ' in London now';
+    console.log(res);
+    return humidity;
+
+};
+
+
+function getsystemid() {
+
+    const id = data.sys.id;
+    const res = 'Systemid of London = ' + id;
+    console.log(res);
+    return id;
+
+};
+
+
+function getcountryname() {
+
+    const name = data.sys.country;
+    const res = 'Country name of London is ' + name;
+    console.log(res);
+    return name;
+
+};
+
+
+function getwindspeed() {
+
+    const speed = data.wind.speed;
+    const res = 'Wind speed in London is ' + speed;
+    console.log(res);
+    return speed;
+
+};
+
+
+function getwinddegree() {
+
+    const degree = data.wind.deg;
+    const res = 'Wind degree in London is ' + degree;
+    console.log(res);
+    return degree;
+
+};
+
+
+function KelvinToCelsius(Kelvintemperature) {
+    Celsiustemperature = (Kelvintemperature - 273.15).toPrecision(4);
+    return Celsiustemperature;
+};
+
+
+function getcityweather() {
+
+    const desc = getcityweatherdescription();
+    const id = getcityweatherid();
+    const res = 'weather description is ' + desc + ' ,weather id is ' + id;
+    console.log(res);
+    return res;
+
+};
+
+
+function getcitywindinfo() {
+
+    const windspeed = getwindspeed();
+    const winddegree = getwinddegree();
+    const res = 'Wind speed in London is ' + windspeed + ' ,Wind degree is ' + winddegree;
+    console.log(res);
+    return res;
+
+};
+
+
+function getcitytemperatureToCelsius() {
+
+    const Kelvintemperature = getcitytemperature();
+    const Celsiustemperature = KelvinToCelsius(Kelvintemperature);
+    console.log('Temperature = ' + Celsiustemperature + ' °C in London now');
+    return Celsiustemperature;
+
+};
+
+
 exports.getcityweatherdescription = getcityweatherdescription;
 exports.getcityweatherid = getcityweatherid;
+exports.getcitytemperature = getcitytemperature;
+exports.getcityhumidity = getcityhumidity;
+exports.getsystemid = getsystemid;
+exports.getcountryname = getcountryname;
+exports.getwindspeed = getwindspeed;
+exports.getwinddegree = getwinddegree;
+exports.KelvinToCelsius = KelvinToCelsius;
+exports.getcityweather = getcityweather;
+exports.getcitywindinfo = getcitywindinfo;
+exports.getcitytemperatureToCelsius = getcitytemperatureToCelsius;

@@ -8,15 +8,24 @@ async function makeRequest(city) {
     }
 
     let res = await axios(config)
-    console.log('info for London is')
+    console.log('info for '+city+' is')
     console.log(res.data);
     return res
 
 }
-/*
-function getcityinfo(){
-    makeRequest('LONDON')
-};*/
+
 makeRequest('LONDON');
 
-//getcityinfo();
+/*
+const getcountryname = ()=>{
+    
+    return makeRequest('LONDON').then(res => {
+        const name = res.data.sys.country;
+        console.log('Country name of London is '+name);
+        return name;
+     });
+     
+};
+
+exports.getcountryname = getcountryname;
+*/
