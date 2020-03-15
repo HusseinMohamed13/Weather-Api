@@ -1,5 +1,4 @@
 ﻿# Testing_Assignment1
-<<<<<<< HEAD
 API to get info of specific city from public API.
 
 We Build API using 'Axios' Promise-based HTTP client to send asynchronous HTTP request to Public API which is 'openweathermap.org'
