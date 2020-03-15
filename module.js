@@ -90,9 +90,38 @@ function getcountryname() {
     return name;
 
 };
+function getwindspeed() {
+
+    const speed = data.wind.speed;
+    const res = 'Wind speed in London is ' + speed;
+    console.log(res);
+    return speed;
+
+};
+
+function getwinddegree() {
+
+    const degree = data.wind.deg;
+    const res = 'Wind degree in London is ' + degree;
+    console.log(res);
+    return degree;
+
+};
+function getcityweather() {
+
+    const desc = getcityweatherdescription();
+    const id = getcityweatherid();
+    const res = 'weather description is ' + desc + ' ,weather id is ' + id;
+    console.log(res);
+    return res;
+
+};
 exports.getcityweatherdescription = getcityweatherdescription;
 exports.getcityweatherid = getcityweatherid;
 exports.getcitytemperature = getcitytemperature;
 exports.getcityhumidity = getcityhumidity;
 exports.getsystemid = getsystemid;
 exports.getcountryname = getcountryname;
+exports.getwindspeed = getwindspeed;
+exports.getwinddegree = getwinddegree;
+exports.getcityweather = getcityweather;
