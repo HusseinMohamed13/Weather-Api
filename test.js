@@ -20,3 +20,20 @@ it('get weather id of city London', () => {
   assert.equal(m.getcityweatherid(),804);
 })
 
+it('get temperature of city London', () => {
+  assert.equal(m.getcitytemperature(),283.32);
+})
+
+it('get humidity of city London', () => {
+  assert.equal(m.getcityhumidity(),71);
+})
+
+it('get system id of city London', () => {
+  assert.equal(m.getsystemid(),1414);
+})
+
+it('get country name of city London', () => {
+  assert.equal(m.getcountryname(), 'Egypt');
+})
+
+/*******/
