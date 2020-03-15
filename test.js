@@ -35,5 +35,16 @@ it('get system id of city London', () => {
 it('get country name of city London', () => {
   assert.equal(m.getcountryname(), 'Egypt');
 })
+it('get wind speed of city London', () => {
+  assert.equal(m.getwindspeed(), 6.2);
+})
 
+it('get wind degree of city London', () => {
+  assert.equal(m.getwinddegree(), 200);
+})
+it('get weather of city London', () => {
+
+  assert.equal(m.getcityweather(), 'weather description is ' + 'overcast clouds' + ' ,weather id is ' + 804);
+
+})
 /*******/
