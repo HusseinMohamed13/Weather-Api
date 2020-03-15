@@ -53,5 +53,46 @@ function getcityweatherid() {
     return id;
 };
 
+function getcitytemperature() {
+
+    const temp = data.main.temp;
+    const res = 'Temerature = ' + temp + ' in London now';
+    console.log(res);
+    return temp;
+};
+
+
+function getcityhumidity() {
+
+    const humidity = data.main.humidity;
+    const res = 'humidity = ' + humidity + ' in London now';
+    console.log(res);
+    return humidity;
+
+};
+
+
+function getsystemid() {
+
+    const id = data.sys.id;
+    const res = 'Systemid of London = ' + id;
+    console.log(res);
+    return id;
+
+};
+
+
+function getcountryname() {
+
+    const name = data.sys.country;
+    const res = 'Country name of London is ' + name;
+    console.log(res);
+    return name;
+
+};
 exports.getcityweatherdescription = getcityweatherdescription;
 exports.getcityweatherid = getcityweatherid;
+exports.getcitytemperature = getcitytemperature;
+exports.getcityhumidity = getcityhumidity;
+exports.getsystemid = getsystemid;
+exports.getcountryname = getcountryname;
