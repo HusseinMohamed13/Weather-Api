@@ -18,6 +18,8 @@ var http = require('http');
 
 http.createServer(handler(getinfo)).listen(8080);
 
+
+
 function handler(getinfo) {
     return function (req, res) {
         handleradapter(getinfo, req, res);
