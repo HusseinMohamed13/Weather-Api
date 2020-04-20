@@ -10,28 +10,31 @@ async function makeRequest(city) {
         }
     })
 
-    return response;
+    return response.data;
 }
 
 
 var http = require('http');
 
-http.createServer(handleradapter(getinfo)).listen(8080);
+http.createServer(handler(getinfo)).listen(8080);
+
+function handler(getinfo) {
+    return function (req, res) {
+        handleradapter(getinfo, req, res);
+    }
+}
 //Function responsible to distribute tasks 
 //requesthandler() handle client request and return array of requests using parseUrl function
 //responsehandler() handle get string of requested info then send it to client   
-function handleradapter(getinfo) {
-    return function (req, res) {
-        parsedRequest = requesthandler(req);
-        responsehandler(res, getinfo, parsedRequest);
-    }
+async function handleradapter(getinfo, req, res) {
+    parsedRequest = requesthandler(req);
+    return responsehandler(res, getinfo, parsedRequest);
 }
-
 //Function responsible to handle client request
 //Extract url from req object
 //Passing url to parseUrl() 
 function requesthandler(req) {
-    var msg = req.url;
+    var msg = req.url;//  /country/?city=paris&info=countryname,temp
     parsedRequest = parseUrl(msg);
     return parsedRequest;
 }
@@ -79,39 +82,83 @@ function parseUrl(msg) {
         if (str[x + 1] == '&') { flag = 1 }//assume that requested info should come after '&' like &info=countryname,temp 
     }
 
-    var requested = [];  
+    var requested = [];
     var str1 = city + ',' + info;
     requested = str1.split(',');//Conatain city at first index and requested info at rest of it like ['cairo','countryname','temp']
 
     return requested;
 }
 //Function responsible to get response from public API and send it to client 
-const responsehandler = (res, getinfo, parsedRequest) => {
+async function responsehandler(res, getinfo, parsedRequest) {
     //Call back getinfo() to solve promise 
     //then get final info string which contain all client requested info
     //then send info string to client(will appear on browser)
-    getinfo(parsedRequest).then(function (result) {
+    /*return getinfo(parsedRequest).then(function (result) {
+        console.log(result);
         res.writeHead(200, { 'Content-Type': 'text/html' });
         var res1 = result;
         res.end(res1);
-    });
+        return result;
+    });*/
+    const result = await getinfo(parsedRequest);
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    var res1 = result;
+    res.end(res1);
+    return res1;
 
 }
 //Function responsible to get info object from public API
 //Extract from this object what client are requested using statefunction()
 //Then return info string which will appear to client in browser  
-function getinfo(request) {
-    return makeRequest(request[0]).then(res1 => {
-        var data = "";
-        data = "{";
-        for (var x = 1; x < request.length; x++) {
-            data += statefunction(request[x], res1);
-            if (x >= 1 && x != request.length - 1) { data += ' ,'; }
-        }
-        data += "}"
-        return data;
-    }).catch(error => console.log(''));
+async function getinfo(request) {
+    const fs = require('fs');
+    var filename = request[0] + ".txt";
+    var fullpath = __dirname + "\\Handled Requestes\\" + filename;
+    const path = require('path');
+    const directoryPath = path.join(__dirname, 'Handled Requestes');
+    flag = 0
 
+    //Check exist of request
+    fs.readdirSync(directoryPath).forEach(file => {
+        if (file == filename) {
+            flag = 1;
+        }
+    });
+
+    if (flag == 1) {
+        var data = "";
+        let res, res1;
+        res = fs.readFileSync(fullpath);
+        res1 = JSON.parse(res);
+        data = finalmessage(res1, request);
+        return data;
+    }
+    else {
+
+        return makeRequest(request[0]).then(res1 => {
+            var fs = require('fs');
+            var str = JSON.stringify(res1);
+            fs.writeFile(fullpath, str, function (err) {
+                if (err) throw err;
+            });
+            var data = "";
+            data = finalmessage(res1, request);
+            return data;
+        }).catch(error => console.log(''));
+
+    }
+
+}
+//Build final message that will appear to client
+function finalmessage(res1, request) {
+    var data = "";
+    data = "{";
+    for (var x = 1; x < request.length; x++) {
+        data += statefunction(request[x], res1);
+        if (x >= 1 && x != request.length - 1) { data += ' ,'; }
+    }
+    data += "}"
+    return data;
 }
 //Function get info for specific request from client ,then return this info  
 function statefunction(request, res1) {
@@ -134,36 +181,36 @@ function statefunction(request, res1) {
             result = "Wind degree: " + getwinddegree(res1);
             break;
         default:
-            break;     
+            break;
     }
     return result;
 }
 
 /*************/
 //All below functions are responsible to extract specific info from response object
-function getcitytemperature(response) {
+function getcitytemperature(data) {
 
-    const temp = response.data.main.temp;
-    const city = response.data.name;
+    const temp = data.main.temp;
+    const city = data.name;
     const res = 'Temperature = ' + temp + ' K in ' + city + ' now';
     console.log(res);
     return temp;
 };
 
-function getcityhumidity(response) {
+function getcityhumidity(data) {
 
-    const humidity = response.data.main.humidity;
-    const city = response.data.name;
+    const humidity = data.main.humidity;
+    const city = data.name;
     const res = 'Humidity = ' + humidity + ' in ' + city + ' now';
     console.log(res);
     return humidity;
 
 };
 
-function getcountryname(response) {
+function getcountryname(data) {
 
-    const name = response.data.sys.country;
-    const city = response.data.name;
+    const name = data.sys.country;
+    const city = data.name;
     const res = 'Country name of ' + city + ' is ' + name;
     console.log(res);
     return name;
@@ -171,10 +218,10 @@ function getcountryname(response) {
 };
 
 
-function getwindspeed(response) {
+function getwindspeed(data) {
 
-    const speed = response.data.wind.speed;
-    const city = response.data.name;
+    const speed = data.wind.speed;
+    const city = data.name;
     const res = 'Wind speed in ' + city + ' is ' + speed;
     console.log(res);
     return speed;
@@ -182,10 +229,10 @@ function getwindspeed(response) {
 };
 
 
-function getwinddegree(response) {
+function getwinddegree(data) {
 
-    const degree = response.data.wind.deg;
-    const city = response.data.name;
+    const degree = data.wind.deg;
+    const city = data.name;
     const res = 'Wind degree in ' + city + ' is ' + degree;
     console.log(res);
     return degree;
@@ -199,10 +246,10 @@ function KelvinToCelsius(Kelvintemperature) {
 };
 
 
-function getcitywindinfo(response) {
+function getcitywindinfo(data) {
 
-    const windspeed = getwindspeed(response);
-    const winddegree = getwinddegree(response);
+    const windspeed = getwindspeed(data);
+    const winddegree = getwinddegree(data);
     const city = response.data.name;
     const res = 'Wind speed in ' + city + ' is ' + windspeed + ' ,Wind degree is ' + winddegree;
     console.log(res);
@@ -212,24 +259,29 @@ function getcitywindinfo(response) {
 
 //get temperature in kelvin then convert it to celsius
 //then return result
-function getcitytemperatureToCelsius(response) {
+function getcitytemperatureToCelsius(data) {
 
-    const Kelvintemperature = getcitytemperature(response);
+    const Kelvintemperature = getcitytemperature(data);
     const Celsiustemperature = KelvinToCelsius(Kelvintemperature);
-    const city = response.data.name;
+    const city = data.name;
     console.log('Temperature = ' + Celsiustemperature + ' °C in ' + city + ' now');
     return Celsiustemperature;
 
 };
 
 //Function to be tested in test.js  
+exports.makeRequest = makeRequest;
 exports.parseUrl = parseUrl;
+exports.handleradapter = handleradapter;
+exports.responsehandler = responsehandler;
+exports.finalmessage = finalmessage;
+exports.getinfo = getinfo;
+exports.statefunction = statefunction;
 exports.getcitytemperature = getcitytemperature;
 exports.getcityhumidity = getcityhumidity;
 exports.getcountryname = getcountryname;
 exports.getwindspeed = getwindspeed;
 exports.getwinddegree = getwinddegree;
 exports.KelvinToCelsius = KelvinToCelsius;
-exports.statefunction = statefunction;
 exports.getcitywindinfo = getcitywindinfo;
 exports.getcitytemperatureToCelsius = getcitytemperatureToCelsius;

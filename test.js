@@ -38,18 +38,19 @@ response = {
   }
 }
 
-/************************/
-
+/********************************/
 const m = require('./Api.js')
 const assert = require('assert')
 
 /*
-it('get country name of city ', () => {//need internet connection to be tested
-    m.makeRequest('LONDON').then(res=>{
-    assert.equal(m.getcountryname(res),'GB');
-  }).catch(error => console.log('Error', error));
+it('get country name of city ', async () => {//need internet connection to be tested
+  const res = await  m.makeRequest('LONDON');
+  assert.equal(m.getcountryname(res),'G');
+
 })
 */
+
+
 
 /*Unit Testing*/
 
@@ -78,23 +79,23 @@ it('parse url that client of API entered and expected specific info', () => {
 })
 //Test that getcitytemperature() extract the right info from response object
 it('get temperature of city ', () => {
-  assert.equal(m.getcitytemperature(response), 283.32);
+  assert.equal(m.getcitytemperature(response.data), 283.32);
 })
 //Test that getcitythumidity() extract the right info from response object
 it('get humidity of city ', () => {
-  assert.equal(m.getcityhumidity(response), 71);
+  assert.equal(m.getcityhumidity(response.data), 71);
 })
 //Test that getcountryname() extract the right info from response object
 it('get country name of city ', () => {
-  assert.equal(m.getcountryname(response), 'GB');
+  assert.equal(m.getcountryname(response.data), 'GB');
 })
 //Test that getwindspeed() extract the right info from response object
 it('get wind speed of city ', () => {
-  assert.equal(m.getwindspeed(response), 6.2);
+  assert.equal(m.getwindspeed(response.data), 6.2);
 })
 //Test that getwinddegree() extract the right info from response object
 it('get wind degree of city ', () => {
-  assert.equal(m.getwinddegree(response), 200);
+  assert.equal(m.getwinddegree(response.data), 200);
 })
 //Test that KelvinToCelsius() convert from Kelvin to Celsius right
 it('convert temperature from Kelvin to Celsius', () => {
@@ -103,11 +104,43 @@ it('convert temperature from Kelvin to Celsius', () => {
 
 /*********************/
 /*Integration Testing*/
+
+
+Fake_req = { url: "/country/?city=london&info=countryname,temp" };
+Fake_res = {
+  writeHead: function () {},
+  end: function () {}
+}
+async function Fake_getinfo(request) {
+  var data = "";
+  data = m.finalmessage(response.data, request);
+  return data;
+}
+
+
+it('Test the Api dealing with client request ', async () => {
+
+  const d = await m.handleradapter(Fake_getinfo, Fake_req, Fake_res);
+  console.log("Actual: " + d);
+  console.log("Expected: " + "{Country name: GB ,Temperature: 283.32 Kelvin}");
+  assert.equal(d, "{Country name: GB ,Temperature: 283.32 Kelvin}");
+
+})
+
+
+it('get final message that will appear to client ', () => {
+  result = m.finalmessage(response.data, ['london', 'countryname', 'temp', 'humidity' , 'winddegree' , 'windspeed']);
+  console.log("Actual: " + result);
+  console.log("Expected: " + "{Country name: GB ,Temperature: 283.32 Kelvin ,Humidity: 71 ,Wind degree: 200 ,Wind speed: 6.2}");
+  assert.equal(result, "{Country name: GB ,Temperature: 283.32 Kelvin ,Humidity: 71 ,Wind degree: 200 ,Wind speed: 6.2}");
+})
+
+
 //Test interact between getcitywindinfo() ,getwindspeed() and getwinddegree()
 //where getcitywindinfo() depend on getwindspeed() and getwinddegree() return info
 it('get wind info of city ', () => {
 
-  assert.equal(m.getcitywindinfo(response), 'Wind speed in London is ' + 6.2 + ' ,Wind degree is ' + 200);
+  assert.equal(m.getcitywindinfo(response.data), 'Wind speed in London is ' + 6.2 + ' ,Wind degree is ' + 200);
 
 })
 //Test interact between  getcitytemperatureToCelsius() ,getcitytemperature() and KelvinToCelsius()
@@ -115,7 +148,7 @@ it('get wind info of city ', () => {
 //and  KelvinToCelsius() depend on getcitytemperature() return info
 it('get temperature of city in Celsius', () => {
 
-  assert.equal(m.getcitytemperatureToCelsius(response), 10.17);
+  assert.equal(m.getcitytemperatureToCelsius(response.data), 10.17);
 
 })
 //Test interact between statefunction() and getcitytemperature() ,getwindspeed() ,getwinddegree() ,getcountryname() ,getcityhumidity()
@@ -123,9 +156,10 @@ it('get temperature of city in Celsius', () => {
 it("get specific info from response object", () => {
 
   const request = 'Countryname';
-  const info = m.statefunction(request, response);
+  const info = m.statefunction(request, response.data);
   console.log("Actual info: " + info + "  Expected info: Country name: GB");
   assert.equal(info, 'Country name: GB');
 
 })
+
 /**********************/
