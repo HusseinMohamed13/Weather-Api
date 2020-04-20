@@ -23,6 +23,9 @@ function handler(getinfo) {
         handleradapter(getinfo, req, res);
     }
 }
+
+
+
 //Function responsible to distribute tasks 
 //requesthandler() handle client request and return array of requests using parseUrl function
 //responsehandler() handle get string of requested info then send it to client   
