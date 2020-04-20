@@ -162,4 +162,12 @@ it("get specific info from response object", () => {
 
 })
 
+it('test getinfo ', async() => {
+  result = await m.getinfo(['london', 'countryname', 'temp', 'humidity' , 'winddegree' , 'windspeed']);
+  console.log("Actual: " + result);
+  console.log("Expected: " + "{Country name: GB ,Temperature: 285.74 Kelvin ,Humidity: 62 ,Wind degree: 60 ,Wind speed: 6.2}");
+  assert.equal(result, "{Country name: GB ,Temperature: 285.74 Kelvin ,Humidity: 62 ,Wind degree: 60 ,Wind speed: 6.2}");
+})
+
+
 /**********************/
