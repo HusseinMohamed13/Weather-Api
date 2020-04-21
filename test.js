@@ -163,6 +163,7 @@ it("get specific info from response object", () => {
 })
 
 
+
 it('test getinfo ', async() => {
   result = await m.getinfo(['london', 'countryname', 'temp', 'humidity' , 'winddegree' , 'windspeed']);
   console.log("Actual: " + result);
