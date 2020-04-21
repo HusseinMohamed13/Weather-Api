@@ -167,6 +167,8 @@ it('test getinfo ', async() => {
   console.log("Actual: " + result);
   console.log("Expected: " + "{Country name: GB ,Temperature: 285.74 Kelvin ,Humidity: 62 ,Wind degree: 60 ,Wind speed: 6.2}");
   assert.equal(result, "{Country name: GB ,Temperature: 285.74 Kelvin ,Humidity: 62 ,Wind degree: 60 ,Wind speed: 6.2}");
+
+  m.server.close();
 })
 
 

@@ -16,7 +16,8 @@ async function makeRequest(city) {
 
 var http = require('http');
 
-http.createServer(handler(getinfo)).listen(8080);
+var server = http.createServer(handler(getinfo));
+server.listen(8080);
 
 function handler(getinfo) {
     return function (req, res) {
@@ -270,6 +271,7 @@ function getcitytemperatureToCelsius(data) {
 };
 
 //Function to be tested in test.js  
+exports.server = server;
 exports.makeRequest = makeRequest;
 exports.parseUrl = parseUrl;
 exports.handleradapter = handleradapter;
