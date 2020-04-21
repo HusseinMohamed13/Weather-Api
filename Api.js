@@ -114,7 +114,7 @@ async function responsehandler(res, getinfo, parsedRequest) {
 async function getinfo(request) {
     const fs = require('fs');
     var filename = request[0] + ".txt";
-    var fullpath = __dirname + "\\Handled Requestes\\" + filename;
+    var fullpath = __dirname + "//Handled Requestes//" + filename;
     const path = require('path');
     const directoryPath = path.join(__dirname, 'Handled Requestes');
     flag = 0
@@ -273,6 +273,7 @@ function getcitytemperatureToCelsius(data) {
 //Function to be tested in test.js  
 exports.server = server;
 exports.makeRequest = makeRequest;
+exports.requesthandler = requesthandler;
 exports.parseUrl = parseUrl;
 exports.handleradapter = handleradapter;
 exports.responsehandler = responsehandler;
