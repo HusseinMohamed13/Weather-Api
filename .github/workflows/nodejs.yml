@@ -29,4 +29,5 @@ jobs:
     - run: npm test
     - run: npm run report-coverage
       env:
+        key: 468bd35c-272f-4af3-989a-40e32ba81c46
         CI: true
