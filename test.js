@@ -105,19 +105,21 @@ it('convert temperature from Kelvin to Celsius', () => {
 /*********************/
 /*Integration Testing*/
 
-
+//Fake req object to repalce req object from httpServer
 Fake_req = { url: "/country/?city=london&info=countryname,temp" };
+//Fake res object to repalce res object from httpServer
 Fake_res = {
   writeHead: function () {},
   end: function () {}
 }
+//Fake function to replace orginal getinfo() to test offline without calling public Api 
 async function Fake_getinfo(request) {
   var data = "";
   data = m.finalmessage(response.data, request);
   return data;
 }
 
-
+//Test interaction of functions from start point when client enter request till final message that will appear to him
 it('Test the Api dealing with client request ', async () => {
 
   const d = await m.handleradapter(Fake_getinfo, Fake_req, Fake_res);
@@ -127,7 +129,8 @@ it('Test the Api dealing with client request ', async () => {
 
 })
 
-
+//Test interaction between finalmessage() and ,getwindspeed() ,getwinddegree(),
+//getcitytemperature() ,getcountryname() and getcityhumidity()
 it('get final message that will appear to client ', () => {
   result = m.finalmessage(response.data, ['london', 'countryname', 'temp', 'humidity' , 'winddegree' , 'windspeed']);
   console.log("Actual: " + result);
@@ -162,7 +165,7 @@ it("get specific info from response object", () => {
 
 })
 
-
+//Test first scenario where request info was handled before
 it('test getinfo ', async() => {
   result = await m.getinfo(['london', 'countryname', 'temp', 'humidity' , 'winddegree' , 'windspeed']);
   console.log("Actual: " + result);
