@@ -12,7 +12,8 @@
     "nyc": "^15.0.1"
   },
   "scripts": {
-    "test": "nyc mocha"
+    "test": "nyc mocha",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",
