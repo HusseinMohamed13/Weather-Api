@@ -16,10 +16,18 @@ async function makeRequest(city) {
 
 var http = require('http');
 
-var server = http.createServer(handler(getinfo));
+var server = http.createServer(handler(Fake_getinfo));
 server.listen(8080);
 
-function handler(getinfo) {
+
+async function Fake_getinfo(request) {
+    var data = "";
+    data = m.finalmessage(response.data, request);
+    return data;
+}
+
+
+function handler(Fake_getinfo) {
     return function (req, res) {
         handleradapter(getinfo, req, res);
     }
@@ -269,6 +277,52 @@ function getcitytemperatureToCelsius(data) {
     return Celsiustemperature;
 
 };
+
+
+
+
+/*info of LONDON*///static object for testing
+response = {
+    data: {
+      coord: { lon: -0.13, lat: 51.51 },
+      weather:
+      {
+        id: [804, 5]
+        ,
+        main: 'Clouds',
+        description: 'overcast clouds',
+        icon: '04d'
+      }
+      ,
+      base: 'stations',
+      main: {
+        temp: 283.32,
+        feels_like: 277.89,
+        temp_min: 282.04,
+        temp_max: 284.26,
+        pressure: 1007,
+        humidity: 71
+      },
+      visibility: 10000,
+      wind: { speed: 6.2, deg: 200 },
+      clouds: { all: 90 },
+      dt: 1584268507,
+      sys: {
+        type: 1,
+        id: 1414,
+        country: 'GB',
+        sunrise: 1584252833,
+        sunset: 1584295494
+      },
+      timezone: 0,
+      id: 2643743,
+      name: 'London',
+      cod: 200
+    }
+  }
+  
+  /********************************/
+
 
 //Function to be tested in test.js  
 exports.server = server;
