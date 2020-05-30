@@ -16,18 +16,18 @@ async function makeRequest(city) {
 
 var http = require('http');
 
-var server = http.createServer(handler(Fake_getinfo));
+var server = http.createServer(handler(getinfo));
 server.listen(8080);
 
 
-async function Fake_getinfo(request) {
+/*async function Fake_getinfo(request) {
     var data = "";
     data = m.finalmessage(response.data, request);
     return data;
-}
+}*/
 
 
-function handler(Fake_getinfo) {
+function handler(getinfo) {
     return function (req, res) {
         handleradapter(getinfo, req, res);
     }
