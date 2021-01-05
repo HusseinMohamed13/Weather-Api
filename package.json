@@ -7,7 +7,7 @@
     "axios": "^0.21.1"
   },
   "devDependencies": {
-    "codecov": "^3.6.5",
+    "codecov": "^3.7.1",
     "mocha": "^7.1.0",
     "nyc": "^15.0.1",
     "loadtest": "*"
