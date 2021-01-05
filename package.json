@@ -4,7 +4,7 @@
   "description": "API to get info of specific city ,coverage part of this info with both unit and integration testing",
   "main": "Api.js",
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "codecov": "^3.6.5",
