@@ -8,3 +8,5 @@ Frameworks/Tools used:
 - mocha
 - codecov
 - loadtest
+
+CircleCI paltform for CI/CD
