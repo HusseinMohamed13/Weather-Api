@@ -9,4 +9,4 @@ Frameworks/Tools used:
 - codecov
 - loadtest
 
-CircleCI paltform for CI/CD
+CircleCI platform for CI/CD
